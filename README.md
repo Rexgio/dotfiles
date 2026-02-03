@@ -37,6 +37,9 @@ Para que todo funcione como se espera, asegúrate de tener instalados los siguie
 1. **Clona el repositorio:**
    ```bash
    git clone [https://github.com/tu-usuario/mis-dotfiles.git](https://github.com/tu-usuario/mis-dotfiles.git) ~/mis-dotfiles```
+2. **Clona las fuentes**
+   ```bash
+   mkdir -p ~/.local/share/fonts && cp -r fonts/* ~/.local/share/fonts && fc-cache -fv
 
 ## 🚀 Dependencias 
 * **Arch**
