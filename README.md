@@ -44,11 +44,11 @@ Para que todo funcione como se espera, asegúrate de tener instalados los siguie
 ## 🚀 Dependencias 
 * **Arch**
    ```bash
-      sudo pacman -Syu bspwm sxhkd hyprland alacritty fish neovim polybar waybar rofi wofi picom thunar nautilus catfish cherrytree qt6ct spicetify-cli brightnessctl playerctl pavucontrol xfce4-settings xdg-user-dirs
+      sudo pacman -Syu bspwm sxhkd hyprland alacritty fish neovim polybar waybar rofi wofi picom thunar nautilus catfish cherrytree qt6ct spicetify-cli brightnessctl playerctl pavucontrol xfce4-settings xdg-user-dirs clangd
    ```
 * **Debian**
    ```bash
-      sudo apt update && sudo apt install -y bspwm sxhkd alacritty fish neovim polybar waybar rofi wofi picom thunar nautilus catfish cherrytree qt6ct xfce4-settings xdg-user-dirs pavucontrol brightnessctl playerctl
+      sudo apt update && sudo apt install -y bspwm sxhkd alacritty fish neovim polybar waybar rofi wofi picom thunar nautilus catfish cherrytree qt6ct xfce4-settings xdg-user-dirs pavucontrol brightnessctl playerctl clangd
    ```
 ## 😈Imágenes
 * **BSPWM + Polybar + Kitty**
