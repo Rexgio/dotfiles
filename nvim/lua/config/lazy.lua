@@ -14,9 +14,19 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Neovide config
 if vim.g.neovide then
-  vim.o.guifont = "JetBrainsMono Nerd Font Mono:h12"
+  -- Forzamos el color que me pasaste para la barra
+  vim.g.neovide_title_background_color = "#24283b"
+
+  -- El color del texto de la barra en púrpura como querías
+  vim.g.neovide_title_text_color = "blue"
+
+  -- Esto asegura que la barra use colores personalizados y no los del sistema
+  -- (Nota: Esta opción ayuda en algunas versiones a que el color de arriba se aplique)
+  vim.g.neovide_undocked_window_frame = true
+
+  -- Opcional: Si quieres que el fondo general coincida exactamente
+  -- vim.g.neovide_background_color = "#24283b"
 end
 
 require("lazy").setup({
