@@ -1,9 +1,10 @@
 return {
-  -- Change the default colorscheme
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "tokyonight-storm",
+    -- Change the default colorscheme
+    { "ellisonleao/gruvbox.nvim" },
+    {
+        "LazyVim/LazyVim",
+        opts = {
+            colorscheme = "gruvbox",
+        },
     },
-  },
 }
