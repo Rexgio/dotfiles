@@ -7,6 +7,8 @@ local browser = "firefox"
 local terminal = "alacritty"
 local fileManager = "alacritty -e yazi"
 local menu = "wofi --show drun"
+local picture =
+    "hyprshot -m region --raw | satty --filename -  --output-filename ~/Pictures/Screenshots/shot-$(date +%Y%m%d-%H%M%S).png --copy-command wl-copy --early-exit"
 
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + W", hl.dsp.window.close())
@@ -17,6 +19,8 @@ hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ action = "toggle", mode = "fullscreen" }))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
+
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd(picture))
 
 -- Mover el foco entre ventanas
 hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "l" }))

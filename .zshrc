@@ -13,39 +13,27 @@ setopt INC_APPEND_HISTORY
 # ============================
 #   OPCIONES GENERALES
 # ============================
-setopt AUTO_CD              # escribir solo el nombre de la carpeta para entrar
-setopt CORRECT              # corrección de comandos mal escritos
+setopt AUTO_CD
 setopt EXTENDED_GLOB
+# setopt CORRECT   # <- coméntalo, suele molestar con autosuggestions
+
+# PATH primero
+export PATH="$HOME/.local/bin:$PATH"
+
+# ============================
+#   COMPLETADO (fpath ANTES de compinit)
+# ============================
+fpath+=~/.zsh/zsh-completions/src
 autoload -Uz compinit && compinit
 
 # ============================
-#   PLUGINS
+#   FZF y ZOXIDE
 # ============================
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
-fpath+=~/.zsh/zsh-completions/src
-
-# Flechas arriba/abajo = buscar en historial por substring
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-
-# Color de autosugerencias (gris gruvbox)
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#928374'
-
-# fzf (autocompletado ** y Ctrl+R mejorado)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# zoxide (cd inteligente)
-# 1º: PATH primero, siempre arriba del todo
-export PATH="$HOME/.local/bin:$PATH"
-
-
-# al final, o al menos después del export PATH:
 eval "$(zoxide init zsh)"
 
 # ============================
-#   ALIASES ÚTILES
+#   ALIASES (con funciones, no con ||)
 # ============================
 alias ls='ls --color=auto'
 alias ll='ls -lah --color=auto'
@@ -53,18 +41,32 @@ alias la='ls -A --color=auto'
 alias grep='grep --color=auto'
 alias ..='cd ..'
 alias ...='cd ../..'
-alias cd='z'                      # usa zoxide en vez de cd normal
-alias cat='batcat 2>/dev/null || cat'   # usa 'bat' si está instalado
-alias vim='nvim 2>/dev/null || vim'
-alias tm='tmux attach || tmux new'      # abrir/entrar en tmux con un solo comando
+alias tm='tmux attach || tmux new'
+
+command -v batcat >/dev/null && alias cat='batcat'
+command -v nvim   >/dev/null && alias vim='nvim'
 
 # ============================
-#   STARSHIP (prompt)
+#   STARSHIP
 # ============================
 eval "$(starship init zsh)"
 
 # ============================
-#   AUTOARRANCAR TMUX (opcional)
+#   PLUGINS (el orden importa)
+# ============================
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#928374'
+
+# syntax-highlighting SIEMPRE después de autosuggestions
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# history-substring-search SIEMPRE el último
+source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+# ============================
+#   TMUX (siempre al final)
 # ============================
 if [[ -z "$TMUX" ]] && [[ -n "$PS1" ]]; then
     tmux attach -t main || tmux new -s main

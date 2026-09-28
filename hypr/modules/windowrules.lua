@@ -21,4 +21,9 @@ hl.window_rule({
 })
 -- ~/.config/hypr/modules/windowrules.lua
 
--- ~/.config/hypr/modules/windowrules.lua
+hl.window_rule({
+    name = "nvim-no-blur",
+    match = { class = "^(Alacritty)$", title = ".*nvim.*" },
+    no_blur = true,
+    opaque = true,
+})
