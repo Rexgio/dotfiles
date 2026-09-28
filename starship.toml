@@ -1,22 +1,20 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+# Sin $fill: es la causa más común del repintado roto al autocompletar
 format = """
 $directory\
 $git_branch\
 $git_status\
-$fill\
 $cmd_duration\
 $line_break\
 $character"""
 
 add_newline = true
 
-[fill]
-symbol = " "
-
 [character]
-success_symbol = "[❯](bold #b8bb26)"
-error_symbol = "[❯](bold #fb4934)"
+# Carácter ASCII de ancho fijo (evita desajustes de ancho en el prompt)
+success_symbol = "[>](bold #b8bb26)"
+error_symbol = "[>](bold #fb4934)"
 
 [directory]
 style = "bold #83a598"
@@ -34,7 +32,7 @@ format = "([$all_status$ahead_behind]($style)) "
 
 [cmd_duration]
 min_time = 2000
-format = "[$duration]( #928374)"
+format = "[$duration](#928374) "
 
 [nodejs]
 symbol = " "

@@ -1,4 +1,9 @@
 # ============================
+#   PATH
+# ============================
+export PATH="$HOME/.local/bin:$PATH"
+
+# ============================
 #   HISTORIAL
 # ============================
 HISTFILE=~/.zsh_history
@@ -15,16 +20,21 @@ setopt INC_APPEND_HISTORY
 # ============================
 setopt AUTO_CD
 setopt EXTENDED_GLOB
-# setopt CORRECT   # <- coméntalo, suele molestar con autosuggestions
-
-# PATH primero
-export PATH="$HOME/.local/bin:$PATH"
+unsetopt CORRECT
+unsetopt CORRECT_ALL
+unsetopt LIST_BEEP
 
 # ============================
-#   COMPLETADO (fpath ANTES de compinit)
+#   COMPLETADO
 # ============================
 fpath+=~/.zsh/zsh-completions/src
 autoload -Uz compinit && compinit
+
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-prompt ''
+zstyle ':completion:*' select-prompt ''
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # ============================
 #   FZF y ZOXIDE
@@ -33,7 +43,7 @@ autoload -Uz compinit && compinit
 eval "$(zoxide init zsh)"
 
 # ============================
-#   ALIASES (con funciones, no con ||)
+#   ALIASES
 # ============================
 alias ls='ls --color=auto'
 alias ll='ls -lah --color=auto'
@@ -54,19 +64,25 @@ eval "$(starship init zsh)"
 # ============================
 #   PLUGINS (el orden importa)
 # ============================
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+# 1) autosuggestions
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#928374'
+ZSH_AUTOSUGGEST_STRATEGY=(history)
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=40
+# Limpiar la sugerencia antes de completar con Tab (evita restos)
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(expand-or-complete complete-word)
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-# syntax-highlighting SIEMPRE después de autosuggestions
+# 2) syntax-highlighting
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# history-substring-search SIEMPRE el último
+# 3) history-substring-search (siempre el último)
 source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 # ============================
-#   TMUX (siempre al final)
+#   TMUX (opcional, al final)
 # ============================
 if [[ -z "$TMUX" ]] && [[ -n "$PS1" ]]; then
     tmux attach -t main || tmux new -s main
