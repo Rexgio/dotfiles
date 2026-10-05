@@ -1,0 +1,152 @@
+# i3 config file (v4)
+# Guardar en ~/.config/i3/config
+# Validar con: i3 -C -c ~/.config/i3/config
+
+set $mod Mod4
+
+# ---- Variables ----
+set $browser   firefox
+set $terminal  alacritty
+set $filemgr   $terminal -e yazi
+set $menu      rofi -show drun
+
+font pango:Iosevka 10
+
+# $mod + clic izquierdo = mover flotantes, clic derecho = redimensionar
+floating_modifier $mod
+
+# ---- Apps ----
+bindsym $mod+Return exec $terminal
+bindsym $mod+e      exec $filemgr
+bindsym $mod+b      exec $browser
+bindsym $mod+space  exec $menu
+bindsym $mod+d      exec dmenu_run
+
+# ---- Capturas de pantalla ----
+# (necesita: maim, satty, xclip, scrot  y  mkdir -p ~/Pictures/Screenshots)
+# Antes estaba en $mod+l, que chocaba con "focus right"
+bindsym --release $mod+Shift+s exec "maim -s | satty --filename - --output-filename ~/Pictures/Screenshots/shot-$(date +%Y%m%d-%H%M%S).png --copy-command 'xclip -selection clipboard -t image/png' --early-exit"
+bindsym --release $mod+s exec "scrot -s"
+
+# ---- Ventanas ----
+bindsym $mod+w kill
+bindsym $mod+Shift+q kill
+
+bindsym $mod+v floating toggle
+bindsym $mod+Shift+space floating toggle
+
+bindsym $mod+f fullscreen toggle
+
+bindsym $mod+m exec "i3-nagbar -t warning -m 'Salir de i3? Esto cierra tu sesion X.' -b 'Si, salir' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Salir de i3? Esto cierra tu sesion X.' -b 'Si, salir' 'i3-msg exit'"
+
+# ---- Foco (estilo Vim: h izq, j abajo, k arriba, l der) ----
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+bindsym $mod+Left  focus left
+bindsym $mod+Down  focus down
+bindsym $mod+Up    focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+Shift+Tab focus mode_toggle
+bindsym $mod+a focus parent
+
+# ---- Mover ventanas: $mod+Shift + hjkl o flechas ----
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+bindsym $mod+Shift+Left  move left
+bindsym $mod+Shift+Down  move down
+bindsym $mod+Shift+Up    move up
+bindsym $mod+Shift+Right move right
+
+# ---- Layouts y splits ----
+# Antes $mod+h chocaba con "focus left"
+bindsym Mod1+h split h
+bindsym Mod1+v split v
+
+bindsym $mod+t layout tabbed
+bindsym $mod+g layout toggle split
+
+# Opcional: que todos los workspaces arranquen en pestanas
+# workspace_layout tabbed
+
+# ---- Workspaces ----
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# ---- Volumen y brillo ----
+# wpctl = PipeWire/WirePlumber. Si usas PulseAudio, cambia por pactl.
+bindsym XF86AudioRaiseVolume  exec --no-startup-id wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume  exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute         exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86MonBrightnessUp   exec --no-startup-id brightnessctl set 5%+
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+
+# ---- Sesion de i3 ----
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+
+# ---- Modo resize ----
+mode "resize" {
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
+
+        bindsym Left  resize shrink width 10 px or 10 ppt
+        bindsym Down  resize grow height 10 px or 10 ppt
+        bindsym Up    resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# ---- Barra ----
+# Necesita el paquete i3status. Si no lo tienes, la barra sale con un error.
+bar {
+        status_command i3status
+        # position top      # descomenta para ponerla arriba
+        # mode hide         # descomenta para que solo aparezca al pulsar $mod
+}
+
+# ---- Bloqueo de pantalla ----
+# (necesita slock; antes estaba en $mod+Shift+l, que ahora mueve ventanas)
+bindsym --release $mod+Shift+x exec "slock"
+
+# ---- Atajos personales del streamer (desactivados: son scripts suyos) ----
+# bindsym Mod1+F1 exec "~/bin/hhkb-i3"
+# bindsym $mod+Shift+p exec "~/.screenlayout/portable-setup.sh"
+# bindsym $mod+Shift+w exec "~/bin/map-wacom"
+# bindsym $mod+Shift+b exec "boomer"
+
+# ---- Comportamiento ----
+focus_follows_mouse no
+hide_edge_borders both
